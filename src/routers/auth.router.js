@@ -1,13 +1,10 @@
-import express from 'express';
-import  authController from '../../controller/auth.controller.js';
+import { Router } from 'express';
+import { AuthController } from '../controllers/auth.controller.js';
 
+const authRouter = Router();
+const authController = new AuthController();
 
-const router = express.Router();
-const authController = new authController
+authRouter.post('/signup', authController.signup); // 회원가입
+authRouter.post('/signin', authController.signin); // 로그인
 
-// 회원가입
-router.post('/signup', authController.signupUser);
-// 로그인
-router.post('/signin', authController.signinUser);
-
-export  router
+export { authRouter };

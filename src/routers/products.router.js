@@ -1,34 +1,14 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import { needSignin } from '../middlewares/need-signin.middleware.js';
-import db from '../../models/index.cjs';
 import { ProductsController } from '../controllers/products.controller.js';
-import authenticate from '../../middlewares/auth.middleware.js';
 
-const { Products, User } = db;
-const router = express.Router();
-const productsRouter = Router()
+const productsRouter = Router();
 const productsController = new ProductsController();
 
-//상품생성
-productsRouter.post('', needSignin, productsController.createOne) 
+productsRouter.post('', needSignin, productsController.createOne); // 생성
+productsRouter.get('', productsController.readMany); // 목록 조회
+productsRouter.get('/:productId', productsController.readOne); // 상세 조회
+productsRouter.put('/:productId', needSignin, productsController.updateOne); // 수정
+productsRouter.delete('/:productId', needSignin, productsController.deleteOne); // 삭제
 
-/* 상품조회 API (Read) */
-router.get('/products', productsController.getProducts);
-
-/* 특정 상품 상세 조회 (Read) */
-router.get('/products/:productId', productsController.getProductById);
-
-
-/* 아래 API는 모두 로그인 후 이용이 가능하여, auth 미들웨어 적용 */
-router.use(authenticate);
-
-/* 상품등록 API (Create) */
-router.post('/products', productsController.createProduct);
-
-/* 특정 상품 수정 (Update) */
-router.put('/products/:productId', productsController.updateProduct);
-
-/* 특정 상품 삭제하기 (Delete) */
-router.delete('/products/:productId', productsController.deleteProduct);
-
-export default router; 
+export { productsRouter };
