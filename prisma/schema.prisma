@@ -1,0 +1,29 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  title       String
+  description String   @db.Text
+  status      String   @default("FOR_SALE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  Users       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("Products")
+}
+
+model Users {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  Products  Products?
+
+  @@map("Users")
+}

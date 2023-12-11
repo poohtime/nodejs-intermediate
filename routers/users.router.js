@@ -1,23 +1,17 @@
-import { Router } from 'express';
-import { needSignin } from '../middlewares/need-signin.middleware.js';
-const usersRouter = Router();
+import express from 'express';
+import { UsersController } from '../controllers/users.controller.js';
+import authenticate from '../middlewares/auth.middleware.js';
 
-usersRouter.get('/me', needSignin, (req, res) => {
-  try {
-    const me = res.locals.user;
+const router = express.Router();
+const usersController = new UsersController;
 
-    return res.status(200).json({
-      success: true,
-      message: '내 정보 조회에 성공했습니다.',
-      data: me,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: '예상치 못한 에러가 발생하였습니다. 관리자에게 문의하세요.',
-    });
-  }
-});
+/* 회원가입 */
+router.post('/signup', usersController.signUp);
 
-export { usersRouter };
+/* 로그인 */
+router.post('/signin', usersController.signIn);
+
+/* 사용자 조회 */
+router.get('/users/userInfo', authenticate, usersController.getUserInfo);
+
+export default router;
