@@ -1,8 +1,8 @@
 import express from 'express';
-import { SERVER_PORT } from './constants/app.constant.js';
-import { apiRouter } from './routers/index.js';
-import productsRouter from './routers/products.router.js';
-import userRouter from './routers/users.router.js';
+import { SERVER_PORT } from './src/constants/app.constant.js';
+import { apiRouter } from './src/services/routers/index.js';
+import productsRouter from './src/services/routers/products.router.js';
+import userRouter from './src/services/routers/users.router.js';
 import errorHandling from './middlewares/error.middleware.js';
 import cookieParser from 'cookie-parser';
 

@@ -1,10 +1,16 @@
-import express from 'express';
+import express, { Router } from 'express';
+import { needSignin } from '../middlewares/need-signin.middleware.js';
+import db from '../../models/index.cjs';
 import { ProductsController } from '../controllers/products.controller.js';
-import authenticate from '../middlewares/auth.middleware.js';
+import authenticate from '../../middlewares/auth.middleware.js';
 
+const { Products, User } = db;
 const router = express.Router();
-
+const productsRouter = Router()
 const productsController = new ProductsController();
+
+//상품생성
+productsRouter.post('', needSignin, productsController.createOne) 
 
 /* 상품조회 API (Read) */
 router.get('/products', productsController.getProducts);
