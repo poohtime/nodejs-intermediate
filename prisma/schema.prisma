@@ -13,7 +13,7 @@ model Products {
   description String   @db.Text
   status      String   @default("FOR_SALE")
   createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime @updatedAt 
   Users       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Products")
@@ -25,7 +25,8 @@ model Users {
   password  String
   name      String
   createdAt DateTime  @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
+
   Products  Products?
 
   @@map("Users")
